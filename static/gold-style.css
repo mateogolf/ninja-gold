@@ -20,6 +20,7 @@
 #activities{
     height: 300px;
     width: 900px;
+    border: 1px solid black;
 }
 /* a:last-of-type{
     display: inline-block;

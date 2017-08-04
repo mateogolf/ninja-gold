@@ -26,12 +26,8 @@ def process_money():
         elif request.form['building'] == 'house':
             earnings = random.randint(2,5)
         #Set Output in Activities
-        if earnings >= 0:
-            session['output'] += "\nEarned {} gold from the {}!({})".format(
-                earnings, request.form['building'], now)
-        else:
-            session['output'] += "\nEntered a {}  and lost {} gold.. Ouch..({})".format(
-                request.form['building'], earnings, now)
+        session['output'] += "\nEarned {} gold from the {}!({})".format(
+        earnings, request.form['building'], now)
         #Increase Gold by Earnings
         session['gold'] += earnings
     else:
@@ -39,7 +35,6 @@ def process_money():
             session['output'] += "\nYou're broke, you can't go to the casino...({})".format(now)
         else:
             earnings = random.randint(-50, 50)
-            print earnings
             #Set Output in Activities
             if earnings >= 0:
                 session['output'] += "\nEarned {} gold from the {}!({})".format(
