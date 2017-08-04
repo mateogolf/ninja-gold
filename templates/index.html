@@ -37,9 +37,14 @@
             </form>
         </div>
         <p>Activities:</p>
-        <textarea type="text" name="activities" id="activities"></textarea>
-            <!-- <p style="color:green;">{{log}}</p>
-        </div> -->
+        <!-- <textarea type="text" name="activities" id="activities">{{log}}</textarea> -->
+        <div id="activities" name="activities">
+            <ul>
+                {% for x in session['activities']  %}
+                <li>{{x|safe}}</li>
+                {% endfor%}
+            </ul>
+        </div>
         <a href="/reset">Reset Game</a>
     </div>
 </body>

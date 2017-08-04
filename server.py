@@ -9,9 +9,11 @@ app.secret_key = "countThis"
 def index():
     if 'gold' not in session:
         session['gold'] = 0
-    if 'output' not in session:
-        session['output'] = ""
-    return render_template('index.html', gold=session['gold'], log=session['output'])
+    if 'activities' not in session:
+        session['activities'] = []
+    # if 'output' not in session:
+    #     session['output'] = ""
+    return render_template('index.html', gold=session['gold'], log=session['activities']  )# , log=session['output'])
 
 
 @app.route('/process_money', methods=['POST'])
@@ -26,22 +28,37 @@ def process_money():
         elif request.form['building'] == 'house':
             earnings = random.randint(2,5)
         #Set Output in Activities
-        session['output'] += "\nEarned {} gold from the {}!({})".format(
-        earnings, request.form['building'], now)
+        if earnings >= 0:
+            # session['output'] += "\nEarned {} gold from the {}!({})".format(
+            #     earnings, request.form['building'], now)
+            session['activities'].append("<p style='color:green'>" + 
+                    "Earned {} gold from the {}!({})".format(earnings, request.form['building'], now)+ "</p>")
+                #     earnings, request.form['building'], now) + )
+        else:
+            # session['output'] += "\nEntered a {}  and lost {} gold.. Ouch..({})".format(
+            #     request.form['building'], earnings, now)
+            session['activities'].append("<p style='color:red'>" + 
+                    "Entered a {}  and lost {} gold.. Ouch..({})".format(request.form['building'], earnings, now)+ "</p>")
         #Increase Gold by Earnings
         session['gold'] += earnings
     else:
         if session['gold'] <= 0:
-            session['output'] += "\nYou're broke, you can't go to the casino...({})".format(now)
+            # session['output'] += "\nYou're broke, you can't go to the casino...({})".format(now)
+            session['activities'].append("<p style='color:red'>You're broke, you can't go to the casino...({})".format(now)+ "</p>")
         else:
             earnings = random.randint(-50, 50)
+            print earnings
             #Set Output in Activities
             if earnings >= 0:
-                session['output'] += "\nEarned {} gold from the {}!({})".format(
-                    earnings, request.form['building'], now)
+                # session['output'] += "\nEarned {} gold from the {}!({})".format(
+                #     earnings, request.form['building'], now)
+                session['activities'].append("<p style='color:green'>" + 
+                    "Earned {} gold from the {}!({})".format(earnings, request.form['building'], now)+ "</p>")
             else:
-                session['output'] += "\nEntered a {}  and lost {} gold.. Ouch..({})".format(
-                    request.form['building'], earnings, now)
+                # session['output'] += "\nEntered a {}  and lost {} gold.. Ouch..({})".format(
+                #     request.form['building'], earnings, now)
+                session['activities'].append("<p style='color:red'>" + 
+                    "Entered a {}  and lost {} gold.. Ouch..({})".format(request.form['building'], earnings, now)+ "</p>")
             #Increase Gold by Earnings
             session['gold'] += earnings
     return redirect('/')
@@ -49,7 +66,8 @@ def process_money():
 @app.route('/reset')
 def reset():
     session['gold'] = 0
-    session['output'] = ""
+    # session['output'] = ""
+    session['activities'] = []
     return redirect('/')
 
 app.run(debug=True)
