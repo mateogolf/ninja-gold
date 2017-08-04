@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ninja Money</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='gold-style.css') }}">
+</head>
+<body>
+    <form action="/gold">
+        <p>Your Gold: <input type="text" name="gold" value="{{gold}}"></p>
+    </form>
+    <div class="wrapper">
+        <div id="incomeSources">
+            <form action="/process_money" method="post">
+                <h2>Farm</h2>
+                <p>(earns 10-20 gold)</p>
+                <input type="hidden" name="building" value="farm" />
+                <input type="submit" value="Find Gold!" />
+            </form>
+            <form action="/process_money" method="post">
+                <h2>Cave</h2>
+                <p>(earns 5-10 gold)</p>
+                <input type="hidden" name="building" value="cave" />
+                <input type="submit" value="Find Gold!" />
+            </form>
+            <form action="/process_money" method="post">
+                <h2>House</h2>
+                <p>(earns 2-5 gold)</p>
+                <input type="hidden" name="building" value="house" />
+                <input type="submit" value="Find Gold!" />
+            </form>
+            <form action="/process_money" method="post">
+                <h2>Casino</h2>
+                <p>(earns 0-50 gold)</p>
+                <input type="hidden" name="building" value="casino" />
+                <input type="submit" value="Find Gold!" />
+            </form>
+        </div>
+        <p>Activities:</p>
+        <textarea type="text" name="activities" id="activities">{{log}}</textarea>
+        <a href="/reset">Reset Game</a>
+    </div>
+</body>
+</html>
